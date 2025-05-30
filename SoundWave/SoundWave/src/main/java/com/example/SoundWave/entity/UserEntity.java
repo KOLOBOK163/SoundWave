@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -27,9 +28,23 @@ public class UserEntity implements UserDetails {
     @Column(name = "avatar_url", nullable = false)
     private String avatarUrl = "default_avatar_url";
 
+    @Column(nullable = false)
+    private String role = "ROLE_USER";
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+
+        return List.of(new SimpleGrantedAuthority(role));
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -52,4 +67,7 @@ public class UserEntity implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
+    public Long getId() {
+        return id;
+    }
 }

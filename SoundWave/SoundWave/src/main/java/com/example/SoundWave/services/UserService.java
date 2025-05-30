@@ -50,6 +50,7 @@ public class UserService {
         userEntity.setUsername(userModel.getUsername());
         userEntity.setEmail(userModel.getEmail());
         userEntity.setPassword(passwordEncoder.encode(userModel.getPassword()));
+        userEntity.setRole("ROLE_USER");
         return userRepo.save(userEntity);
     }
 
