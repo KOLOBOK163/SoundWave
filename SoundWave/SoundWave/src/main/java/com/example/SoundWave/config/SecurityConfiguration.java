@@ -35,11 +35,15 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults()) // Включаем CORS
-                .csrf(AbstractHttpConfigurer::disable) // Отключаем CSRF
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/profile/edit").authenticated() // Доступ для изменения профиля только аутентифицированным пользователям
-                        .anyRequest().permitAll() // Доступ для всех остальных запросов без аутентификации
+                        .requestMatchers("/api/profile/edit").authenticated()
+                        .requestMatchers("/api/tracks/upload").hasRole("USER")
+                        .requestMatchers("/api/tracks/my").hasRole("USER")
+                        .requestMatchers("/api/tracks/pending").hasRole("ADMIN")
+                        .requestMatchers("/api/tracks/*/moderate").hasRole("ADMIN")
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
