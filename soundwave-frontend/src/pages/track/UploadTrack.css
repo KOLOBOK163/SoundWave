@@ -1,0 +1,108 @@
+.upload-track-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  color: white;
+}
+
+.upload-track-page h1 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.error-message {
+  background-color: #e22134;
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.upload-form {
+  background-color: #282828;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #535353;
+  background-color: #3e3e3e;
+  color: white;
+}
+
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #3e3e3e;
+  border: 1px solid #535353;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.file-info {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b3b3b3;
+}
+
+.upload-progress {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #535353;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #1DB954;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b3b3b3;
+  text-align: right;
+}
+
+.submit-button {
+  background-color: #1DB954;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.submit-button:hover {
+  background-color: #1ed760;
+}
+
+.submit-button:disabled {
+  background-color: #535353;
+  cursor: not-allowed;
+}

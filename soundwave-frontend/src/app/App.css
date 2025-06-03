@@ -1,0 +1,41 @@
+/* src/App.css */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #121212;
+}
+
+
+.app-body {
+  display: flex;
+  flex: 1;
+  padding-bottom: 80px; /* Отступ равный высоте плеера */
+}
+
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #181818;
+  color: white;
+}
+
+h1, h2, p {
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+button {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #1ed760;
+}

@@ -1,0 +1,60 @@
+/* Общий стиль для страниц входа и регистрации */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Это гарантирует, что контейнер будет занимать всю высоту видимой области экрана */
+    width: 200vh;
+    
+}
+
+  
+  .auth-form {
+    background-color: #181818;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: white;
+    text-align: center;
+  }
+  
+  input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #b3b3b3;
+    background-color: #282828;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  input::placeholder {
+    color: #b3b3b3;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #1db954;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  button:hover {
+    background-color: #1ed760;
+  }
+  

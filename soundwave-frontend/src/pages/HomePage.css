@@ -1,0 +1,84 @@
+.home-page {
+  padding: 20px;
+}
+
+
+.tracks-section {
+  margin-bottom: 40px;
+}
+
+.tracks-section h2 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.track-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.track-card:hover {
+  transform: scale(1.03);
+}
+
+.track-image {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.track-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.play-overlay i {
+  font-size: 48px;
+  color: white;
+}
+
+.track-card:hover .play-overlay {
+  opacity: 1;
+}
+
+.track-card h3 {
+  font-size: 16px;
+  color: white;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-card p {
+  font-size: 14px;
+  color: #b3b3b3;
+  margin: 0;
+}

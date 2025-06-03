@@ -1,0 +1,19 @@
+/* src/components/MainContent.css */
+.main-content {
+  padding: 20px;
+  background-color: #121212;
+  flex: 1;
+  color: white;
+  display: flex;
+  justify-content: flex-start; /* Ставим контент справа */
+  align-items: flex-start;
+  
+}
+
+.login-page, .register-page {
+  max-width: 400px;
+  background-color: #282828;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
