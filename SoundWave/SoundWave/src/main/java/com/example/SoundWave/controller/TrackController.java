@@ -28,14 +28,16 @@ public class TrackController {
     }
 
     @PostMapping("/upload")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<?> uploadTrack(
             @RequestParam("title") String title,
             @RequestParam("artist") String artist,
-            @RequestParam("file") MultipartFile file,
+            @RequestParam("genre") String genre,
+            @RequestParam("trackFile") MultipartFile trackFile,
+            @RequestParam("coverFile") MultipartFile coverFile,
             @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            TrackModel track = trackService.uploadTrack(title, artist, file, userDetails.getUsername());
+            TrackModel track = trackService.uploadTrack(title, artist, genre,trackFile, coverFile, userDetails.getUsername());
             return ResponseEntity.ok(track);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -49,37 +51,55 @@ public class TrackController {
         return ResponseEntity.ok(tracks);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<TrackModel>> searchTracks(@RequestParam("query") String query){
+            List<TrackModel> tracks = trackService.searchTracks(query);
+            return ResponseEntity.ok(tracks);
+    }
+
     @GetMapping("/my")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<TrackModel>> getUserTracks(@AuthenticationPrincipal UserDetails userDetails) {
-        // Проверяем, является ли пользователь администратором
         boolean isAdmin = userDetails.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+                .anyMatch(authority -> {
+                    String auth = authority.getAuthority();
+                    return auth.equals("ADMIN");
+                });
 
-        // Если пользователь — администратор, передаем null (чтобы получить все треки)
-        // Иначе передаем id текущего пользователя
-        Long userId = isAdmin ? null : ((UserEntity) userDetails).getId();
-
-        List<TrackModel> tracks = trackService.getTracksByUser(userId);
+        UserEntity user = (UserEntity) userDetails;
+        List<TrackModel> tracks = trackService.getTracksByUser(user.getId());
         return ResponseEntity.ok(tracks);
     }
 
     @GetMapping("/pending")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<TrackModel>> getPendingTracks() {
         List<TrackModel> tracks = trackService.getTracksByStatus(TrackStatus.PENDING);
         return ResponseEntity.ok(tracks);
     }
 
     @PutMapping("/{id}/moderate")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> moderateTrack(@PathVariable Long id, @RequestParam("status") String status) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> moderateTrack(@PathVariable Long id, @RequestParam("status") String status, @RequestParam(value = "reason", required = false) String reason) {
         try {
             TrackStatus trackStatus = TrackStatus.valueOf(status.toUpperCase());
-            TrackModel track = trackService.moderateTrack(id, trackStatus);
+            TrackModel track = trackService.moderateTrack(id, trackStatus, reason);
             return ResponseEntity.ok(track);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Неверный статус: " + status);
         }
     }
+
+    @PostMapping("/{id}/play")
+    public ResponseEntity<?> registerPlay(@PathVariable Long id){
+        try{
+            trackService.incrementPlayCount(id);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body("Ошибка: " + e.getMessage());
+        }
+    }
+
 }
