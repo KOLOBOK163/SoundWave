@@ -39,8 +39,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/profile/edit").authenticated()
-                        .requestMatchers("/api/tracks/upload").hasRole("USER")
-                        .requestMatchers("/api/tracks/my").hasRole("USER")
+                        .requestMatchers("/api/tracks/upload").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/tracks/my").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/tracks/pending").hasRole("ADMIN")
                         .requestMatchers("/api/tracks/*/moderate").hasRole("ADMIN")
                         .anyRequest().permitAll()
