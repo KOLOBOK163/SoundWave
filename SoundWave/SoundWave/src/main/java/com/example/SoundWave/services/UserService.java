@@ -7,12 +7,14 @@ import com.example.SoundWave.mappers.UserMapper;
 import com.example.SoundWave.models.UserModel;
 import com.example.SoundWave.repository.UserRepo;
 import com.example.SoundWave.response.LoginResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,6 +29,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+
+    @Value("${upload.avatars.path}")
+    private String avatarsUploadPath;
 
     public UserService(
             UserRepo userRepo,
@@ -50,7 +55,7 @@ public class UserService {
         userEntity.setUsername(userModel.getUsername());
         userEntity.setEmail(userModel.getEmail());
         userEntity.setPassword(passwordEncoder.encode(userModel.getPassword()));
-        userEntity.setRole("ROLE_USER");
+        userEntity.setRole("USER");
         return userRepo.save(userEntity);
     }
 
@@ -108,12 +113,29 @@ public class UserService {
 
     private String saveAvatar(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get("G:/ProjectsJava/SoundWave/SoundWave/uploads/", fileName);
+        File uploadDir = new File(avatarsUploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
 
-        Files.createDirectories(filePath.getParent());
-        file.transferTo(filePath.toFile());
+        File destFile = new File(uploadDir.getAbsolutePath() + File.separator + fileName);
+        file.transferTo(destFile);
 
-        return "/uploads/" + fileName;
+        return "/" + avatarsUploadPath + "/" + fileName;
+    }
+
+    public UserEntity createAdmin(UserModel userModel) throws UserAlreadyExistException{
+        if(userRepo.findByUsername(userModel.getUsername()).isPresent()){
+            throw new UserAlreadyExistException("Пользователь с таким именем уже существует");
+        }
+
+        UserEntity userEntity = userMapper.userModelToUserEntity(userModel);
+        userEntity.setUsername(userModel.getUsername());
+        userEntity.setEmail(userModel.getEmail());
+        userEntity.setPassword(userModel.getPassword());
+        userEntity.setRole("ADMIN");
+
+        return userRepo.save(userEntity);
     }
 
 }
