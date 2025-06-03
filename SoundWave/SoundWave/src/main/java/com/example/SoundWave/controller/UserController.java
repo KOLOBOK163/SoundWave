@@ -45,6 +45,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/admin/create")
+    public ResponseEntity<?> createAdmin(@RequestBody UserModel userModel)
+    {
+        try{
+            UserEntity admin = userService.createAdmin(userModel);
+            return ResponseEntity.ok("Админ создан успешно");
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Ошибка: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<?> getUserProfile(@AuthenticationPrincipal UserDetails userDetails) {
         try {

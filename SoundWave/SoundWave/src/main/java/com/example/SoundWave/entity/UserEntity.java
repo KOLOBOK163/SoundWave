@@ -29,12 +29,12 @@ public class UserEntity implements UserDetails {
     private String avatarUrl = "default_avatar_url";
 
     @Column(nullable = false)
-    private String role = "ROLE_USER";
+    private String role = "USER";
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override
@@ -67,7 +67,4 @@ public class UserEntity implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public Long getId() {
-        return id;
-    }
 }
