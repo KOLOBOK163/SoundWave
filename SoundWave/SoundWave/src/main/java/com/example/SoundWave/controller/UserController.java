@@ -5,6 +5,7 @@ import com.example.SoundWave.models.UserModel;
 import com.example.SoundWave.response.LoginResponse;
 import com.example.SoundWave.services.UserService;
 import com.example.SoundWave.services.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,16 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final JwtService jwtService;
 
-    @Autowired
-    public UserController(UserService userService, JwtService jwtService) {
-        this.userService = userService;
-        this.jwtService = jwtService;
-    }
 
     @PostMapping("/register")
     public ResponseEntity<?> registration(@RequestBody UserModel userModel) {
