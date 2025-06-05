@@ -2,6 +2,7 @@ package com.example.SoundWave.controller;
 
 import com.example.SoundWave.Exception.UserNotFoundException;
 import com.example.SoundWave.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +20,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/profile")
 @CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class FileUploadController {
 
     @Value("${upload.path}")
     private String uploadPath;
 
     private final UserService userService;
-
-    public FileUploadController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/avatar")
     public ResponseEntity<?> uploadAvatar(@RequestParam("avatar") MultipartFile file, @AuthenticationPrincipal UserDetails userDetails) {

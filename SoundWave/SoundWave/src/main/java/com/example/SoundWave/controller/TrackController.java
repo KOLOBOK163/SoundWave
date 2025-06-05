@@ -5,6 +5,7 @@ import com.example.SoundWave.entity.Enum.TrackStatus;
 import com.example.SoundWave.models.TrackModel;
 import com.example.SoundWave.services.TrackService;
 import com.example.SoundWave.entity.UserEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,13 +20,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tracks")
 @CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class TrackController {
 
     private final TrackService trackService;
-
-    public TrackController(TrackService trackService) {
-        this.trackService = trackService;
-    }
 
     @PostMapping("/upload")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
